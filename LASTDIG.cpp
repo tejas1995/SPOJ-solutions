@@ -1,45 +1,36 @@
 #include <iostream>
+#include <vector>
 using namespace std;
 
 int main()
 {
-	int t, a;
-	unsigned long int b;
+    int t, a;
+    unsigned long int b;
 
-	b=-1;
-	cout << b << endl;
-	cin >> t;
+    cin >> t;
 
-	while(t--)
-	{
-		cin >> a >> b;
+    while(t--)
+    {
+        cin >> a >> b;
 
-		int baseLast = a % 10;
-		int nextLast = (baseLast * baseLast) % 10;
-		int numDistinctLast = 1;
+        if(b == 0)
+            cout << 1 << endl;
+        else
+        {
+            int baseL = a % 10, nextL = baseL;
+            vector<int> lastDig;
+            do
+            {
+                lastDig.push_back(nextL);
+                nextL=(nextL*baseL)%10;
+            }while(nextL!=baseL);
 
-		while(nextLast != baseLast)
-		{
-			numDistinctLast++;
-			nextLast = (nextLast * baseLast) % 10;
-		}
+            if(b % lastDig.size() == 0)
+                cout << lastDig[lastDig.size()-1] << endl;
+            else
+                cout << lastDig[b % lastDig.size()-1] << endl;
+        }
+    }
 
-		int *lastDigit = new int [numDistinctLast];
-		nextLast = baseLast;
-
-		for(int i = 0; i < numDistinctLast; i++)
-		{
-			lastDigit[i] = nextLast;
-			nextLast = (nextLast * baseLast) % 10;
-			cout << i << " : " << lastDigit[i] << "\t";
-		}
-		cout << endl;
-		
-		if(b % numDistinctLast == 0)
-			cout << lastDigit[b % numDistinctLast + numDistinctLast - 1] << endl;
-		else
-			cout << lastDigit[b % numDistinctLast - 1] << endl;
-	}
-
-	return 0;
+    return 0;
 }
